@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { fetchMoviCredits } from "functions/fetchFilms";
 
 export const Cast = () => {
     const [cast, setCast] = useState([]);
     const { movieId } = useParams();
+    const location = useLocation();
+
 
     useEffect(() => {
         fetchMoviCredits(movieId)
         .then(results => setCast(results))
         .catch(error => console.log(error))
-        .finally(console.log('GET!'))
+        .finally()
     }, [movieId])
+
+    console.log(location)
 
     return <ul>{cast.length > 0 ? cast.map(({id, name, character, profile_path }) =>
         <li key={id}>

@@ -10,7 +10,7 @@ export const Reviews = () => {
         fetchMoviReviews(movieId)
         .then((results) => setReviews(results))
         .catch(error => console.log(error))
-        .finally(console.log('GET!'))
+        .finally()
     }, [movieId])
 
     return <ul>{reviews.length > 0 ? reviews.map(({id, author, content}) =>
@@ -18,4 +18,5 @@ export const Reviews = () => {
             <p>{author}</p>
             <p>Review: {content}</p>
         </li>) : 
-        <p>Sorry, there is no reviews</p>}</ul>}
+        <p>Sorry, there is no reviews</p>}
+        </ul>}

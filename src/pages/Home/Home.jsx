@@ -1,10 +1,11 @@
 import { fetchTrendingFilms } from "functions/fetchFilms";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const Home =()=> {
     const [films, setFilms] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const location = useLocation();
 
     useEffect(()=>{
         setIsLoading(true);
@@ -18,7 +19,7 @@ export const Home =()=> {
         <h2>Trending today</h2>
         {isLoading && <p>LOADING</p>}
         <ul>
-            {films.map(({title, id}) => <li key={id}><Link to={`/movies/${id}`}>{title}</Link></li>)}
+            {films.map(({title, id}) => <li key={id}><Link to={`/movies/${id}`} state={{from: location}}>{title}</Link></li>)}
         </ul>
     </div>
 }
