@@ -1,8 +1,7 @@
 import { Loader } from "components/Loader/Loader";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchSearchFilms } from "functions/fetchFilms";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams} from "react-router-dom";
 
 export const Movies = () => {
@@ -24,12 +23,15 @@ export const Movies = () => {
         setIsLoading(true);
         const movie = searchParams.get("movie");
         fetchSearchFilms(movie)
-        .then(results => {
-            const movies = results.map(({title, id}) =>{return {title, id}})
-            setFilms(prev => [...prev, ...movies])})
-        .catch(error => console.log(error))
-        .finally(() => {setIsLoading(false)
-            Notify.success(`Find movies for "${movie}" search!`)})
+        .then(results => {if (results.length) {
+            const movies = results.map(({title, id}) =>{return {title, id}});
+            setFilms(prev => [...prev, ...movies]);
+            Notify.success(`Find movies for "${movie}" search!`)
+        } else {
+            Notify.failure(`Sorry, can't find movies for "${movie}" search.`);
+        }})
+        .catch(error => Notify.failure(error))
+        .finally(() => setIsLoading(false))
     }, [searchParams])
 
     return <div>

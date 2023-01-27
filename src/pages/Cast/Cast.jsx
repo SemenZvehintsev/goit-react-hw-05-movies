@@ -1,3 +1,4 @@
+import { Loader } from "components/Loader/Loader";
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { fetchMoviCredits } from "functions/fetchFilms";
@@ -5,19 +6,22 @@ import { fetchMoviCredits } from "functions/fetchFilms";
 export const Cast = () => {
 
     const [cast, setCast] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const { movieId } = useParams();
     const location = useLocation();
 
     useEffect(() => {
+        setIsLoading(true);
         fetchMoviCredits(movieId)
         .then(results => setCast(results))
         .catch(error => console.log(error))
-        .finally()
+        .finally(() => setIsLoading(false))
     }, [movieId])
 
     console.log(location)
 
-    return <ul>{cast.length > 0 ? cast.map(({id, name, character, profile_path }) =>
+    return <ul>{isLoading && <Loader/>}
+        {cast.length > 0 ? cast.map(({id, name, character, profile_path }) =>
         <li key={id}>
             <img 
             src={profile_path ? 

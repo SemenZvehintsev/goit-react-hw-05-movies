@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export const Home =()=> {
+
     const [films, setFilms] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const location = useLocation();
@@ -13,11 +14,11 @@ export const Home =()=> {
         setIsLoading(true);
         fetchTrendingFilms()
         .then(results => {
-            const movies = results.map(({title, id}) =>{return {title, id}})
-            setFilms(prev => [...prev, ...movies])})
-        .catch(error => console.log(error))
-        .finally(() => {setIsLoading(false)
+            const movies = results.map(({title, id}) =>{return {title, id}});
+            setFilms(prev => [...prev, ...movies]);
             Notify.success('Get trending films today!')})
+        .catch(error => Notify.warning(error))
+        .finally(() => setIsLoading(false))
     }, [])
 
     if (!films.length) return;

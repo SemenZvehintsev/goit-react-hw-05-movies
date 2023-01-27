@@ -1,20 +1,23 @@
+import { Loader } from "components/Loader/Loader";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { useEffect, useState } from "react";
 import { Link, useParams, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { fetchMovieDetails } from "functions/fetchFilms";
 
-
 export const MovieDetails = () => {
 
     const [film, setFilm] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const { movieId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
 
     useEffect(()=>{
+        setIsLoading(true);
         fetchMovieDetails(movieId)
         .then(({poster_path, title, vote_average, overview, genres}) => setFilm({poster_path, title, vote_average, overview, genres}))
-        .catch(error => console.log(error))
-        .finally()
+        .catch(error => Notify.warning(error))
+        .finally(() => setIsLoading(false))
     }, [movieId])
 
     const handleBack = () => {
@@ -27,6 +30,7 @@ export const MovieDetails = () => {
 
     return <div>
         <button type="button" onClick={handleBack}>Go back</button>
+        {isLoading && <Loader/>}
         <div>
             <img src={`https://image.tmdb.org/t/p/original${film.poster_path}`} alt={film.title} width='360'/>
             <div>
