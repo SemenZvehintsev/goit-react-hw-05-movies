@@ -16,7 +16,7 @@ export const Home =()=> {
         fetchTrendingFilms()
         .then(results => {
             const movies = results.map(({title, id}) =>{return {title, id}});
-            setFilms(prev => [...prev, ...movies]);
+            setFilms([...movies]);
             Notify.success('Get trending films today!')})
         .catch(error => Notify.warning(error))
         .finally(() => setIsLoading(false))

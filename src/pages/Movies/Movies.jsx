@@ -26,7 +26,7 @@ export const Movies = () => {
         fetchSearchFilms(movie)
         .then(results => {if (results.length) {
             const movies = results.map(({title, id}) =>{return {title, id}});
-            setFilms(prev => [...prev, ...movies]);
+            setFilms([...movies]);
             Notify.success(`Find movies for "${movie}" search!`)
         } else {
             Notify.failure(`Sorry, can't find movies for "${movie}" search.`);
