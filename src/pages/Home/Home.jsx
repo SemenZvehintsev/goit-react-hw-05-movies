@@ -1,3 +1,5 @@
+import { Loader } from "components/Loader/Loader";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchTrendingFilms } from "functions/fetchFilms";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -10,14 +12,19 @@ export const Home =()=> {
     useEffect(()=>{
         setIsLoading(true);
         fetchTrendingFilms()
-        .then(results => setFilms(results))
+        .then(results => {
+            const movies = results.map(({title, id}) =>{return {title, id}})
+            setFilms(prev => [...prev, ...movies])})
         .catch(error => console.log(error))
-        .finally(() => setIsLoading(false))
-    },[])
+        .finally(() => {setIsLoading(false)
+            Notify.success('Get trending films today!')})
+    }, [])
+
+    if (!films.length) return;
 
     return <div>
         <h2>Trending today</h2>
-        {isLoading && <p>LOADING</p>}
+        {isLoading && <Loader/>}
         <ul>
             {films.map(({title, id}) => <li key={id}><Link to={`/movies/${id}`} state={{from: location}}>{title}</Link></li>)}
         </ul>

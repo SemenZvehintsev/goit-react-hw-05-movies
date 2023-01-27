@@ -1,3 +1,5 @@
+import { Loader } from "components/Loader/Loader";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchSearchFilms } from "functions/fetchFilms";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -12,7 +14,9 @@ export const Movies = () => {
     const handleSearch = (event) => {
         event.preventDefault();
         const {value} = event.target.text;
-        setSearchParams({movie: value})
+        if (value) {
+            setSearchParams({movie: value})
+        } else {Notify.warning('Write something to find!')}
     }
 
     useEffect(() => {
@@ -20,12 +24,13 @@ export const Movies = () => {
         setIsLoading(true);
         const movie = searchParams.get("movie");
         fetchSearchFilms(movie)
-        .then(results => setFilms(results))
+        .then(results => {
+            const movies = results.map(({title, id}) =>{return {title, id}})
+            setFilms(prev => [...prev, ...movies])})
         .catch(error => console.log(error))
-        .finally(() => setIsLoading(false))
+        .finally(() => {setIsLoading(false)
+            Notify.success(`Find movies for "${movie}" search!`)})
     }, [searchParams])
-
-    console.log(location)
 
     return <div>
         <form onSubmit={handleSearch}>
@@ -37,7 +42,7 @@ export const Movies = () => {
             placeholder="Search films"/>
             <button type="submit">Search</button>
         </form>
-        {isLoading && <p>LOADING</p>}
+        {isLoading && <Loader/>}
         <ul>
             {films.map(({title, id}) => <li key={id}><Link to={`${id}`} state={{from: location}}>{title}</Link></li>)}
         </ul>
