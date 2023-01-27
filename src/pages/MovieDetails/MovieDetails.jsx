@@ -3,6 +3,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { useEffect, useState } from "react";
 import { Link, useParams, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { fetchMovieDetails } from "functions/fetchFilms";
+import styles from 'pages/MovieDetails/MovieDetails.module.css'
 
 export const MovieDetails = () => {
 
@@ -25,13 +26,12 @@ export const MovieDetails = () => {
         navigate(`${pathname}${search}` || '/')
     }
 
-
     if (!film) return;
 
-    return <div>
-        <button type="button" onClick={handleBack}>Go back</button>
+    return <div className={styles.details}>
+        <button className={styles.button} type="button" onClick={handleBack}>Go back</button>
         {isLoading && <Loader/>}
-        <div>
+        <div className={styles.info}>
             <img src={`https://image.tmdb.org/t/p/original${film.poster_path}`} alt={film.title} width='360'/>
             <div>
                 <h2>{film.title}</h2>
@@ -42,7 +42,7 @@ export const MovieDetails = () => {
                 <p>{film.genres.map(({name}) => name).join(', ')}</p>
             </div>
         </div>
-        <div>
+        <div className={styles.additional}>
             <h3>Additional information</h3>
             <ul>
                 <li><Link to='cast' state={{from: location.state.from}}>Cast</Link></li>

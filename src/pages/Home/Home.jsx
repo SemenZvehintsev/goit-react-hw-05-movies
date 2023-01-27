@@ -3,6 +3,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchTrendingFilms } from "functions/fetchFilms";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import styles from 'pages/Home/Home.module.css'
 
 export const Home =()=> {
 
@@ -23,7 +24,7 @@ export const Home =()=> {
 
     if (!films.length) return;
 
-    return <div>
+    return <div className={styles.home}>
         <h2>Trending today</h2>
         {isLoading && <Loader/>}
         <ul>

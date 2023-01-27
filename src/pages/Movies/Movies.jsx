@@ -3,6 +3,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import { fetchSearchFilms } from "functions/fetchFilms";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useSearchParams} from "react-router-dom";
+import styles from "pages/Movies/Movies.module.css"
 
 export const Movies = () => {
     const [films, setFilms] = useState([]);
@@ -34,8 +35,8 @@ export const Movies = () => {
         .finally(() => setIsLoading(false))
     }, [searchParams])
 
-    return <div>
-        <form onSubmit={handleSearch}>
+    return <div className={styles.movies}>
+        <form className={styles.searchform} onSubmit={handleSearch}>
             <input         
             type="text"
             name="text"
