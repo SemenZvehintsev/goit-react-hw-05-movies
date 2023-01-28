@@ -22,7 +22,7 @@ export const MovieDetails = () => {
     }, [movieId])
 
     const handleBack = () => {
-        const {pathname, search} = location.state.from;
+        const {pathname, search} = location.state;
         navigate(`${pathname}${search}` || '/')
     }
 
@@ -45,8 +45,8 @@ export const MovieDetails = () => {
         <div className={styles.additional}>
             <h3>Additional information</h3>
             <ul>
-                <li><Link to='cast' state={{from: location.state.from}}>Cast</Link></li>
-                <li><Link to='reviews' state={{from: location.state.from}}>Revievs</Link></li>
+                <li><Link to='cast' state={location.state}>Cast</Link></li>
+                <li><Link to='reviews' state={location.state}>Revievs</Link></li>
             </ul>
         </div>
         <Outlet/>

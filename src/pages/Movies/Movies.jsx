@@ -47,7 +47,7 @@ export const Movies = () => {
         </form>
         {isLoading && <Loader/>}
         <ul>
-            {films.map(({title, id}) => <li key={id}><Link to={`${id}`} state={{from: location}}>{title}</Link></li>)}
+            {films.map(({title, id}) => <li key={id}><Link to={`${id}`} state={location}>{title}</Link></li>)}
         </ul>
     </div>
 }

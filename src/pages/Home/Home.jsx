@@ -28,7 +28,7 @@ export const Home =()=> {
         <h2>Trending today</h2>
         {isLoading && <Loader/>}
         <ul>
-            {films.map(({title, id}) => <li key={id}><Link to={`/movies/${id}`} state={{from: location}}>{title}</Link></li>)}
+            {films.map(({title, id}) => <li key={id}><Link to={`/movies/${id}`} state={location}>{title}</Link></li>)}
         </ul>
     </div>
 }
