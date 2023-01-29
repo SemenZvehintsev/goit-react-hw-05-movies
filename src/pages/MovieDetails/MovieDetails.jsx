@@ -4,14 +4,18 @@ import { useEffect, useState } from "react";
 import { Link, useParams, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { fetchMovieDetails } from "functions/fetchFilms";
 import styles from 'pages/MovieDetails/MovieDetails.module.css'
+import { useMemo } from "react";
 
-export const MovieDetails = () => {
+export const MovieDetails = ({state}) => {
 
     const [film, setFilm] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const { movieId } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
+
+    const prevPage = useMemo(() => {const {pathname, search} = location.state
+    return `${pathname}${search}`}, [location])
 
     useEffect(()=>{
         setIsLoading(true);
@@ -22,8 +26,7 @@ export const MovieDetails = () => {
     }, [movieId])
 
     const handleBack = () => {
-        const {pathname, search} = location.state;
-        navigate(`${pathname}${search}` || '/')
+        navigate(prevPage || '/')
     }
 
     if (!film) return;
