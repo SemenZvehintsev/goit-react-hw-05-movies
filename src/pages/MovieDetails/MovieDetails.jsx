@@ -21,9 +21,13 @@ export const MovieDetails = () => {
         .finally(() => setIsLoading(false))
     }, [movieId])
 
+    console.log(location)
+
     const handleBack = () => {
+        if (location.state) {
         const {pathname, search} = location.state;
-        navigate(`${pathname}${search}` || '/')
+        navigate(`${pathname}${search}`)} else {
+        navigate('/')}
     }
 
     if (!film) return;
