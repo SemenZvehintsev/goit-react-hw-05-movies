@@ -21,8 +21,6 @@ export const MovieDetails = () => {
         .finally(() => setIsLoading(false))
     }, [movieId])
 
-    console.log(location)
-
     const handleBack = () => {
         if (location.state) {
         const {pathname, search} = location.state;
